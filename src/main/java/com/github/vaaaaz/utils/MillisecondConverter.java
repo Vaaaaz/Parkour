@@ -1,4 +1,4 @@
-package com.github.vaaaaz.Utils;
+package com.github.vaaaaz.utils;
 
 public class MillisecondConverter {
 
@@ -16,7 +16,9 @@ public class MillisecondConverter {
         this.days = hours / 24;
     }
 
-    public long getMilliseconds() { return milliseconds % 1000; }
+    public long getMilliseconds() {
+        return milliseconds % 1000;
+    }
 
     public void setMilliseconds(long milliseconds) {
         this.milliseconds = milliseconds;
@@ -26,7 +28,9 @@ public class MillisecondConverter {
         return seconds % 60;
     }
 
-    public void setSeconds(long seconds) { this.seconds = seconds;}
+    public void setSeconds(long seconds) {
+        this.seconds = seconds;
+    }
 
     public long getMinutes() {
         return minutes % 60;
@@ -48,9 +52,11 @@ public class MillisecondConverter {
         return days;
     }
 
-    public void setDays(long days) { this.days = days;}
-    
-    public String time(){
-        return getMinutes() + ":"+getSeconds()+":"+getMilliseconds();
+    public void setDays(long days) {
+        this.days = days;
+    }
+
+    public String time() {
+        return getMinutes() + ":" + getSeconds() + ":" + getMilliseconds();
     }
 }

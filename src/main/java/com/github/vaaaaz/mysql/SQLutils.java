@@ -1,9 +1,9 @@
-package com.github.vaaaaz.Mysql;
+package com.github.vaaaaz.mysql;
 
 import com.github.vaaaaz.Parkour;
-import com.github.vaaaaz.Utils.InventoryAPI;
-import com.github.vaaaaz.Utils.Skull;
-import com.github.vaaaaz.Utils.MillisecondConverter;
+import com.github.vaaaaz.utils.InventoryAPI;
+import com.github.vaaaaz.utils.Skull;
+import com.github.vaaaaz.utils.MillisecondConverter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.github.vaaaaz.Utils.Itens.criarItem;
+import static com.github.vaaaaz.utils.Itens.criarItem;
 
 public class SQLutils {
     private static SQLconnection connection;
@@ -110,7 +110,7 @@ public class SQLutils {
 
     public void getTop(Player p) {
         List<ItemStack> itens = new ArrayList<>();
-        if(jogadores() == 0){
+        if (jogadores() == 0) {
             p.sendMessage("§cNenhum jogador terminou o parkour ainda.");
             return;
         }
@@ -132,7 +132,7 @@ public class SQLutils {
                     i++;
                     cabeca = new Skull().getSkullPlayer(
                             resultSet.getString(2),
-                            "§a" + i + "° " + resultSet.getString(2), Arrays.asList("","§aVelocidade do jogador: ", "§e"+format(resultSet.getLong(3))));
+                            "§a" + i + "° " + resultSet.getString(2), Arrays.asList("", "§aVelocidade do jogador: ", "§e" + format(resultSet.getLong(3))));
                     itens.add(cabeca);
                 }
                 inv.setPageItens(itens);
@@ -150,31 +150,31 @@ public class SQLutils {
         }
     }
 
-    public int jogadores(){
-        try{
+    public int jogadores() {
+        try {
             connection.openConnection();
             ResultSet rs = connection.getConnection().prepareStatement("SELECT count(NOME) FROM parkour").executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return Integer.parseInt(rs.getString(1));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             connection.closeConnection();
         }
         return 0;
     }
 
-    public int countResults(String tabela, String coluna){
+    public int countResults(String tabela, String coluna) {
         try {
             connection.openConnection();
-            ResultSet rs = connection.getConnection().prepareStatement("SELECT count("+coluna+") FROM "+tabela).executeQuery();
-            if(rs.next()){
+            ResultSet rs = connection.getConnection().prepareStatement("SELECT count(" + coluna + ") FROM " + tabela).executeQuery();
+            if (rs.next()) {
                 return Integer.parseInt(rs.getString(1));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             connection.closeConnection();
         }
         return 0;

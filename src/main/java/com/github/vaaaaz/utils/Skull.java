@@ -1,4 +1,5 @@
-package com.github.vaaaaz.Utils;
+package com.github.vaaaaz.utils;
+
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.apache.commons.codec.binary.Base64;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 public class Skull {
 
-    public ItemStack getSkullPlayer(String nomep, String displayName, List<String> lore){
+    public ItemStack getSkullPlayer(String nomep, String displayName, List<String> lore) {
         ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
         skullMeta.setDisplayName(displayName);
@@ -24,7 +25,7 @@ public class Skull {
     }
 
     public ItemStack getSkull(String url) {
-        ItemStack skull= new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 
         if (url == null || url.isEmpty())
             return skull;
@@ -54,7 +55,7 @@ public class Skull {
     }
 
     public ItemStack getSkull(String url, String displayName, List<String> lore) {
-        ItemStack skull= new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 
         if (url == null || url.isEmpty())
             return skull;

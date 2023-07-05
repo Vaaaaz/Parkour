@@ -1,10 +1,10 @@
 package com.github.vaaaaz;
 
-import com.github.vaaaaz.Commands.ParkourCommand;
-import com.github.vaaaaz.Events.ParkourEvents;
-import com.github.vaaaaz.Files.Loc;
-import com.github.vaaaaz.Mysql.SQLconnection;
-import com.github.vaaaaz.Utils.InventoryAPI;
+import com.github.vaaaaz.commands.ParkourCommand;
+import com.github.vaaaaz.events.ParkourEvents;
+import com.github.vaaaaz.files.Loc;
+import com.github.vaaaaz.mysql.SQLconnection;
+import com.github.vaaaaz.utils.InventoryAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,11 +17,12 @@ public class Parkour extends JavaPlugin {
     private static SQLconnection sqLconnection;
     private static Loc loc;
     public HashMap<String, InventoryAPI> hashinv = new HashMap<>();
+
     @Override
     public void onEnable() {
         instance = this;
         loadConfig();
-        sqLconnection = new SQLconnection(getConfig().getString("mysql.user"),getConfig().getString("mysql.host"),getConfig().getString("mysql.password"),getConfig().getInt("mysql.port"),getConfig().getString("mysql.db"));
+        sqLconnection = new SQLconnection(getConfig().getString("mysql.user"), getConfig().getString("mysql.host"), getConfig().getString("mysql.password"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.db"));
         loc = new Loc();
         setup();
 
@@ -31,24 +32,33 @@ public class Parkour extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(new String[]{
                 "",
                 "§fO §bParkour §ffoi iniciado com sucesso!",
-                "              §fVersão: §b" + version +"",
+                "              §fVersão: §b" + version + "",
                 ""});
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+    }
 
 
-    void loadConfig(){
+    void loadConfig() {
         getConfig().options().copyDefaults(false);
         saveDefaultConfig();
     }
 
-    public static SQLconnection getSqLconnection() { return sqLconnection;}
-    public static Loc getLoc(){return loc;}
-    public static Parkour getInstance(){return instance;}
+    public static SQLconnection getSqLconnection() {
+        return sqLconnection;
+    }
 
-    void setup(){
+    public static Loc getLoc() {
+        return loc;
+    }
+
+    public static Parkour getInstance() {
+        return instance;
+    }
+
+    void setup() {
         Bukkit.getPluginManager().registerEvents(new ParkourEvents(), this);
         getCommand("parkour").setExecutor(new ParkourCommand());
     }

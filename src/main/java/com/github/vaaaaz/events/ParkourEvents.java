@@ -1,12 +1,12 @@
-package com.github.vaaaaz.Events;
+package com.github.vaaaaz.events;
 
-import com.github.vaaaaz.Mysql.SQLutils;
+import com.github.vaaaaz.mysql.SQLutils;
 import com.github.vaaaaz.Parkour;
-import com.github.vaaaaz.Utils.Cords;
-import com.github.vaaaaz.Utils.InventoryAPI;
-import com.github.vaaaaz.Utils.Itens;
-import com.github.vaaaaz.Utils.MillisecondConverter;
-import com.github.vaaaaz.Commands.ParkourCommand;
+import com.github.vaaaaz.utils.Cords;
+import com.github.vaaaaz.utils.InventoryAPI;
+import com.github.vaaaaz.utils.Itens;
+import com.github.vaaaaz.utils.MillisecondConverter;
+import com.github.vaaaaz.commands.ParkourCommand;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -37,9 +37,8 @@ public class ParkourEvents implements Listener, Cords {
     private int tempo = 0;
 
 
-
     @EventHandler
-    void saiu(PlayerQuitEvent e){
+    void saiu(PlayerQuitEvent e) {
         hashplayer.remove(e.getPlayer().getName());
         playerpoint.remove(e.getPlayer().getName());
         ParkourCommand.removespawnpoints.remove(e.getPlayer());
@@ -49,10 +48,11 @@ public class ParkourEvents implements Listener, Cords {
     }
 
     @EventHandler
-    void moveu(PlayerMoveEvent e){
+    void moveu(PlayerMoveEvent e) {
         tempo = 0;
     }
-//
+
+    //
 //                Parkour.getLoc().getConfig().set("Spawnpoints."+numerodepoints+".x");
     @EventHandler
     void quebrou(BlockBreakEvent e) {
@@ -117,7 +117,7 @@ public class ParkourEvents implements Listener, Cords {
         Player p = e.getPlayer();
         if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK) ||
                 e.getAction().equals(Action.RIGHT_CLICK_BLOCK) || e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-            if(e.getItem() == null || e.getItem().getType() == Material.AIR)return;
+            if (e.getItem() == null || e.getItem().getType() == Material.AIR) return;
             if (hashplayer.containsKey(p.getName())) {
                 if (e.getItem().getType().equals(Material.IRON_PLATE)) {
                     if (hashplayer.containsKey(p.getName()) && !playerpoint.containsKey(p.getName())) {
@@ -134,7 +134,7 @@ public class ParkourEvents implements Listener, Cords {
                     p.teleport(spawn(p));
                     return;
                 }
-                if(e.getItem().getType().equals(Material.BED)){
+                if (e.getItem().getType().equals(Material.BED)) {
                     p.chat("/parkour sair");
                     return;
                 }
@@ -161,7 +161,7 @@ public class ParkourEvents implements Listener, Cords {
                         p.teleport(spawn(p));
                         long terminou = System.currentTimeMillis() - hashplayer.get(p.getName());
                         MillisecondConverter milli = new MillisecondConverter(terminou);
-                        if(new SQLutils().hasPlayer(p.getName())){
+                        if (new SQLutils().hasPlayer(p.getName())) {
                             if (terminou > new SQLutils().getTime(p.getName()) && new SQLutils().getTime(p.getName()) > 0) {
                                 p.sendMessage("§aVocê terminou o parkou em §l" + format(terminou) + ". §aMas, infelizmente você não bateu seu recorde de §l" + format(new SQLutils().getTime(p.getName())) + "§a.");
                                 p.playSound(p.getLocation(), Sound.ENDERDRAGON_DEATH, 1.0F, 1.0F);
@@ -170,7 +170,7 @@ public class ParkourEvents implements Listener, Cords {
                                 playerpoint.remove(p.getName());
                                 return;
                             }
-                        }else {
+                        } else {
                             new SQLutils().setPlayer(p);
                         }
                         new SQLutils().setTime(p.getName(), terminou);
@@ -187,7 +187,7 @@ public class ParkourEvents implements Listener, Cords {
             }
             if (e.getClickedBlock().getType().equals(Material.IRON_PLATE)) {
                 if (hashplayer.containsKey(p.getName())) {
-                    if(!hasCheckPoint(e.getClickedBlock().getLocation()))return;
+                    if (!hasCheckPoint(e.getClickedBlock().getLocation())) return;
                     if (!playerpoint.containsKey(p.getName())) {
                         playerpoint.put(p.getName(), e.getClickedBlock().getLocation());
                         p.sendMessage("§aVocê coletou o spawnpoint.");
@@ -196,7 +196,8 @@ public class ParkourEvents implements Listener, Cords {
                     }
                     if (!playerpoint.get(p.getName()).equals(e.getClickedBlock().getLocation())) {
                         try {
-                            if (Integer.parseInt(getCheckPoint(p, e.getClickedBlock().getLocation())) < Integer.parseInt(getCheckPoint(p, playerpoint.get(p.getName())))) return;
+                            if (Integer.parseInt(getCheckPoint(p, e.getClickedBlock().getLocation())) < Integer.parseInt(getCheckPoint(p, playerpoint.get(p.getName()))))
+                                return;
                             playerpoint.remove(p.getName());
                             playerpoint.put(p.getName(), e.getClickedBlock().getLocation());
                             p.sendMessage("§aVocê coletou o spawnpoint.");
@@ -211,18 +212,18 @@ public class ParkourEvents implements Listener, Cords {
     }
 
     @EventHandler
-    void clickEvent(InventoryClickEvent e){
-        if(e.getInventory() == null)return;
-        if(e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR))return;
+    void clickEvent(InventoryClickEvent e) {
+        if (e.getInventory() == null) return;
+        if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) return;
         Player p = (Player) e.getWhoClicked();
-        if(e.getInventory().equals(p.getInventory()))return;
+        if (e.getInventory().equals(p.getInventory())) return;
         InventoryAPI api = Parkour.getInstance().hashinv.get(p.getName());
-        if(api != null){
-            if(e.getInventory().getTitle().equals(api.getTitle())){
+        if (api != null) {
+            if (e.getInventory().getTitle().equals(api.getTitle())) {
                 e.setCancelled(true);
-                switch (e.getSlot()){
+                switch (e.getSlot()) {
                     case 3:
-                        if(api.getPage() == 1){
+                        if (api.getPage() == 1) {
                             p.sendMessage("§cVocê está na primeira página.");
                             return;
                         }
@@ -232,7 +233,7 @@ public class ParkourEvents implements Listener, Cords {
                         p.closeInventory();
                         break;
                     case 5:
-                        if(api.getPage() == api.getPages()){
+                        if (api.getPage() == api.getPages()) {
                             p.sendMessage("§cVocê está na última página.");
                             return;
                         }
@@ -247,7 +248,7 @@ public class ParkourEvents implements Listener, Cords {
     void voltarPoint(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            if(e.getCause().equals(EntityDamageEvent.DamageCause.VOID)){
+            if (e.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
                 if (hashplayer.containsKey(p.getName()) && playerpoint.containsKey(p.getName())) {
                     p.teleport(getPointLocPlayer(p));
                 }
@@ -319,7 +320,7 @@ public class ParkourEvents implements Listener, Cords {
     }
 
 
-    public static void guardarItens(Player p){
+    public static void guardarItens(Player p) {
         HashMap<Integer, ItemStack> itens = new HashMap<>();
         for (ItemStack itemfodase : p.getInventory().getContents()) {
             p.getInventory().all(itemfodase).entrySet().forEach(entry -> {
@@ -329,8 +330,8 @@ public class ParkourEvents implements Listener, Cords {
         guardarhashitens.put(p.getName(), itens);
     }
 
-    public static void setItens(Player p){
-        if(guardarhashitens.containsKey(p.getName())){
+    public static void setItens(Player p) {
+        if (guardarhashitens.containsKey(p.getName())) {
             p.getInventory().clear();
             for (Map.Entry<Integer, ItemStack> map : guardarhashitens.get(p.getName()).entrySet()) {
                 p.getInventory().setItem(map.getKey(), map.getValue());
@@ -339,23 +340,23 @@ public class ParkourEvents implements Listener, Cords {
         guardarhashitens.remove(p.getName());
     }
 
-    public static void sair(Player p){
+    public static void sair(Player p) {
         ParkourEvents.setItens(p);
         ParkourEvents.hashplayer.remove(p.getName());
         ParkourEvents.playerpoint.remove(p.getName());
     }
 
-    void runnable(Player p){
+    void runnable(Player p) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 tempo++;
-                if(hashplayer.containsKey(p.getName())){
-                    if(tempo == Parkour.getInstance().getConfig().getInt("opcoes.tempo-parado")){
+                if (hashplayer.containsKey(p.getName())) {
+                    if (tempo == Parkour.getInstance().getConfig().getInt("opcoes.tempo-parado")) {
                         sair(p);
                         p.sendMessage("§cVocê ficou muito tempo parado, e por isso, você foi removido do parkour.");
                     }
-                }else {
+                } else {
                     this.cancel();
                 }
             }
@@ -382,8 +383,8 @@ public class ParkourEvents implements Listener, Cords {
             stringBuilder.append(days > 0 || hours > 0 ? (seconds > 0 ? ", " : " e ") : "").append(minutes).append(minutes == 1 ? " minuto" : " minutos");
         if (seconds > 0)
             stringBuilder.append(days > 0 || hours > 0 || minutes > 0 ? " e " : "").append(seconds).append(seconds == 1 ? " segundo" : " segundos");
-        if(time > 0)
-            stringBuilder.append(days > 0 || hours > 0 || minutes > 0 || seconds > 0 ?" e " : "").append(timebonito).append(timebonito == 1 ? " milissegundo" : " milissegundos");
+        if (time > 0)
+            stringBuilder.append(days > 0 || hours > 0 || minutes > 0 || seconds > 0 ? " e " : "").append(timebonito).append(timebonito == 1 ? " milissegundo" : " milissegundos");
         return (stringBuilder.length() > 0 ? stringBuilder.toString() : "0 segundos");
     }
 }

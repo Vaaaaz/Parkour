@@ -1,4 +1,4 @@
-package com.github.vaaaaz.Utils;
+package com.github.vaaaaz.utils;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -12,24 +12,24 @@ public class Itens {
     private ItemMeta itemMeta;
 
 
-    public Itens(Material material, int qunatidade, int data){
+    public Itens(Material material, int qunatidade, int data) {
         itemStack = new ItemStack(material, qunatidade, (short) data);
         itemMeta = itemStack.getItemMeta();
     }
 
-    public Itens nome(String nome){
+    public Itens nome(String nome) {
         itemMeta.setDisplayName(nome);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
-    public Itens lore(List<String> lore){
+    public Itens lore(List<String> lore) {
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
-    public static ItemStack criarItem(Material material, String nome, String lore){
+    public static ItemStack criarItem(Material material, String nome, String lore) {
         ItemStack stack = new ItemStack(material);
         ItemMeta stack2 = stack.getItemMeta();
         List<String> ls = new ArrayList();
@@ -40,5 +40,7 @@ public class Itens {
         return stack;
     }
 
-    public ItemStack getItemStack() { return itemStack;}
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
 }

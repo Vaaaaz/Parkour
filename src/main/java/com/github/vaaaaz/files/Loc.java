@@ -1,4 +1,4 @@
-package com.github.vaaaaz.Files;
+package com.github.vaaaaz.files;
 
 import com.github.vaaaaz.Parkour;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,27 +12,33 @@ public class Loc {
     private File file;
     private FileConfiguration fileConfiguration;
 
-    public Loc(){
+    public Loc() {
         file = new File(Parkour.getInstance().getDataFolder(), "Loc.yml");
         fileConfiguration = YamlConfiguration.loadConfiguration(file);
-        if(!file.exists()){
+        if (!file.exists()) {
             try {
                 file.createNewFile();
                 loadConfig();
-            }catch (Exception e){
-                System.out.println("§cOcorreu um erro ao criar o arquivo "+file.getName());
+            } catch (Exception e) {
+                System.out.println("§cOcorreu um erro ao criar o arquivo " + file.getName());
                 e.printStackTrace();
             }
         }
     }
 
 
-    public File getFile() { return file; }
-    public FileConfiguration getConfig() {return fileConfiguration; }
-    public void saveConfig(){
-        try{
+    public File getFile() {
+        return file;
+    }
+
+    public FileConfiguration getConfig() {
+        return fileConfiguration;
+    }
+
+    public void saveConfig() {
+        try {
             fileConfiguration.save(file);
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -62,5 +68,7 @@ public class Loc {
         saveConfig();
     }
 
-    public void reloadConfig(){ this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);}
+    public void reloadConfig() {
+        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
+    }
 }

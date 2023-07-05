@@ -1,4 +1,4 @@
-package com.github.vaaaaz.Mysql;
+package com.github.vaaaaz.mysql;
 
 import org.bukkit.Bukkit;
 
@@ -28,13 +28,13 @@ public class SQLconnection {
         loadDB();
     }
 
-    public void openConnection(){
+    public void openConnection() {
         try {
             query++;
-            if((connection != null) && (!connection.isClosed())) return;
+            if ((connection != null) && (!connection.isClosed())) return;
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + db + "?useSSL=false", user, pass);
-        }catch (ClassNotFoundException | SQLException e){
+        } catch (ClassNotFoundException | SQLException e) {
             query--;
             e.printStackTrace();
             System.out.println("Ocorreu um erro ao abrir a conexao com o banco de dados");
@@ -44,10 +44,10 @@ public class SQLconnection {
 
     public void closeConnection() {
         query--;
-        if (query <= 0){
-            try{
-                if (connection!=null && !connection.isClosed())connection.close();
-            }catch(Exception e){
+        if (query <= 0) {
+            try {
+                if (connection != null && !connection.isClosed()) connection.close();
+            } catch (Exception e) {
                 System.out.println("algo de errado nao esta certo! infelizmente nao foi possivel fechar a conexao");
             }
         }
@@ -57,25 +57,25 @@ public class SQLconnection {
         return this.connection;
     }
 
-    private void loadDB(){
+    private void loadDB() {
         openConnection();
         criarTabelas();
         closeConnection();
     }
 
-    private void criarTabela(String tabela, String colunas){
+    private void criarTabela(String tabela, String colunas) {
         try {
-            if ((connection != null) && (!connection.isClosed())){
+            if ((connection != null) && (!connection.isClosed())) {
                 Statement stm = connection.createStatement();
-                stm.executeUpdate("CREATE TABLE IF NOT EXISTS " + tabela + " (" + colunas +");");
+                stm.executeUpdate("CREATE TABLE IF NOT EXISTS " + tabela + " (" + colunas + ");");
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Ocorreu um erro ao criar a tabela " + tabela + ", verifique se o banco de dados esta funcionando");
         }
     }
 
-    public void criarTabelas(){
-        criarTabela("parkour","UUID varchar(36), NOME varchar(16), TEMPO bigint");
+    public void criarTabelas() {
+        criarTabela("parkour", "UUID varchar(36), NOME varchar(16), TEMPO bigint");
     }
 }

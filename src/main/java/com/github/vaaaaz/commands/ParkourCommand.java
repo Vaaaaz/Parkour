@@ -1,9 +1,9 @@
-package com.github.vaaaaz.Commands;
+package com.github.vaaaaz.commands;
 
-import com.github.vaaaaz.Events.ParkourEvents;
-import com.github.vaaaaz.Mysql.SQLutils;
+import com.github.vaaaaz.events.ParkourEvents;
+import com.github.vaaaaz.mysql.SQLutils;
 import com.github.vaaaaz.Parkour;
-import com.github.vaaaaz.Utils.Cords;
+import com.github.vaaaaz.utils.Cords;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -101,87 +101,87 @@ public class ParkourCommand implements CommandExecutor, Cords {
             return true;
         }
 
-            if (args.length == 2) {
-                if (args[0].equalsIgnoreCase("deletar") || args[0].equalsIgnoreCase("del")) {
-                    if (p.hasPermission("parkour.admin")) {
-                        if (sql.hasPlayer(args[1])) {
-                            sql.delPlayer(args[1]);
-                            p.sendMessage("§aVocê deletou o " + args[1] + " do banco de dados");
-                            return true;
-                        }
-                        p.sendMessage("§cEsse jogador não existe em nosso banco de dados");
+        if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("deletar") || args[0].equalsIgnoreCase("del")) {
+                if (p.hasPermission("parkour.admin")) {
+                    if (sql.hasPlayer(args[1])) {
+                        sql.delPlayer(args[1]);
+                        p.sendMessage("§aVocê deletou o " + args[1] + " do banco de dados");
                         return true;
                     }
+                    p.sendMessage("§cEsse jogador não existe em nosso banco de dados");
                     return true;
-                }
-                if (args[0].equalsIgnoreCase("setar") && args[1].equalsIgnoreCase("spawnpoint")) {
-                    if (p.hasPermission("parkour.admin")) {
-                        if (spawnpointsstaff.contains(p)) {
-                            spawnpointsstaff.remove(p);
-                            p.sendMessage("§cVocê não está mais setando os spawnpoints.");
-                            return true;
-                        }
-                        if (!spawnpointsstaff.isEmpty()) {
-                            p.sendMessage("§cJá existe algum staffer setando os spawnpoints do parkour.");
-                            return true;
-                        }
-
-                        spawnpointsstaff.add(p);
-                        p.sendMessage("§aPara setar os spawnpoints, coloque as plates de ferro no chão.");
-                        return true;
-                    }
-                }
-
-                if (args[0].equalsIgnoreCase("setar") && args[1].equalsIgnoreCase("inicio")) {
-                    if (p.hasPermission("parkour.admin")) {
-                        if (!playerlist.isEmpty()) {
-                            p.sendMessage("§cJa existe algum staffer setando o inicio do parkour.");
-                            return true;
-                        }
-                        if (playerlist.contains(p)) {
-                            p.sendMessage("§cVocê ja esta setando o inicio do parkour.");
-                            return true;
-                        }
-                        playerlist.add(p);
-                        p.sendMessage("§aPara setar o inicio do parkour, coloque uma plate de ouro no chão.");
-                    }
-                    return true;
-                }
-                if (args[0].equalsIgnoreCase("setar") && args[1].equalsIgnoreCase("fim")) {
-                    if (p.hasPermission("parkour.admin")) {
-                        if (!playerlist2.isEmpty()) {
-                            p.sendMessage("§cJa existe algum staffer setando o fim do parkour.");
-                            return true;
-                        }
-                        if (playerlist2.contains(p)) {
-                            p.sendMessage("§cVocê ja esta setando o fim do parkour.");
-                            return true;
-                        }
-                        playerlist2.add(p);
-                        p.sendMessage("§aPara setar o fim do parkour, coloque uma plate de ouro no chão.");
-                    }
-                    return true;
-                }
-                if (args[0].equalsIgnoreCase("remover") && args[1].equalsIgnoreCase("spawnpoint")) {
-                    if (p.hasPermission("parkour.admin")) {
-                        if (removespawnpoints.contains(p)) {
-                            removespawnpoints.remove(p);
-                            p.sendMessage("§cVocê não está mais removendo os spawnpoints.");
-                            return true;
-                        }
-                        if (!removespawnpoints.isEmpty()) {
-                            p.sendMessage("§cJa existe algum staffer removendo os spawnpoints.");
-                            return true;
-                        }
-                        removespawnpoints.add(p);
-                        p.sendMessage("§aPara remover um spawnpoint, quebre a plate de ferro em que ele está.");
-                    }
                 }
                 return true;
             }
+            if (args[0].equalsIgnoreCase("setar") && args[1].equalsIgnoreCase("spawnpoint")) {
+                if (p.hasPermission("parkour.admin")) {
+                    if (spawnpointsstaff.contains(p)) {
+                        spawnpointsstaff.remove(p);
+                        p.sendMessage("§cVocê não está mais setando os spawnpoints.");
+                        return true;
+                    }
+                    if (!spawnpointsstaff.isEmpty()) {
+                        p.sendMessage("§cJá existe algum staffer setando os spawnpoints do parkour.");
+                        return true;
+                    }
 
-            return false;
+                    spawnpointsstaff.add(p);
+                    p.sendMessage("§aPara setar os spawnpoints, coloque as plates de ferro no chão.");
+                    return true;
+                }
+            }
+
+            if (args[0].equalsIgnoreCase("setar") && args[1].equalsIgnoreCase("inicio")) {
+                if (p.hasPermission("parkour.admin")) {
+                    if (!playerlist.isEmpty()) {
+                        p.sendMessage("§cJa existe algum staffer setando o inicio do parkour.");
+                        return true;
+                    }
+                    if (playerlist.contains(p)) {
+                        p.sendMessage("§cVocê ja esta setando o inicio do parkour.");
+                        return true;
+                    }
+                    playerlist.add(p);
+                    p.sendMessage("§aPara setar o inicio do parkour, coloque uma plate de ouro no chão.");
+                }
+                return true;
+            }
+            if (args[0].equalsIgnoreCase("setar") && args[1].equalsIgnoreCase("fim")) {
+                if (p.hasPermission("parkour.admin")) {
+                    if (!playerlist2.isEmpty()) {
+                        p.sendMessage("§cJa existe algum staffer setando o fim do parkour.");
+                        return true;
+                    }
+                    if (playerlist2.contains(p)) {
+                        p.sendMessage("§cVocê ja esta setando o fim do parkour.");
+                        return true;
+                    }
+                    playerlist2.add(p);
+                    p.sendMessage("§aPara setar o fim do parkour, coloque uma plate de ouro no chão.");
+                }
+                return true;
+            }
+            if (args[0].equalsIgnoreCase("remover") && args[1].equalsIgnoreCase("spawnpoint")) {
+                if (p.hasPermission("parkour.admin")) {
+                    if (removespawnpoints.contains(p)) {
+                        removespawnpoints.remove(p);
+                        p.sendMessage("§cVocê não está mais removendo os spawnpoints.");
+                        return true;
+                    }
+                    if (!removespawnpoints.isEmpty()) {
+                        p.sendMessage("§cJa existe algum staffer removendo os spawnpoints.");
+                        return true;
+                    }
+                    removespawnpoints.add(p);
+                    p.sendMessage("§aPara remover um spawnpoint, quebre a plate de ferro em que ele está.");
+                }
+            }
+            return true;
         }
+
+        return false;
+    }
 
 
     public String format(long time) {

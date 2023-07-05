@@ -1,0 +1,6 @@
+main: com.github.vaaaaz.Parkour
+version: 1.0
+name: Parkour
+author: Vaaaaz
+commands:
+  parkour:

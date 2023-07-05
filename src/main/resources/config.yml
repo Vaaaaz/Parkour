@@ -1,0 +1,22 @@
+#
+#   _____           _
+#  |  __ \         | |
+#  | |__) |_ _ _ __| | _____  _   _ _ __
+#  |  ___/ _` | '__| |/ / _ \| | | | '__|
+#  | |  | (_| | |  |   < (_) | |_| | |
+#  |_|   \__,_|_|  |_|\_\___/ \__,_|_|
+#
+# by vaz
+
+# Banco de Dados - necessário #
+mysql:
+  host: "localhost"
+  user: "root"
+  password: ""
+  port: 3306
+  db: "s2_parkour"
+
+
+opcoes:
+  tempo-parado: 180 #Bote o valor em segundos. #
+

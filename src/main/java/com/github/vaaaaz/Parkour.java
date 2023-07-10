@@ -49,6 +49,14 @@ public class Parkour extends JavaPlugin {
         saveDefaultConfig();
     }
 
+    void registerCommands() {
+        getCommand("parkour").setExecutor(new ParkourCommand());
+    }
+
+    void registerEvents() {
+        Bukkit.getPluginManager().registerEvents(new ParkourEvents(), this);
+    }
+
     public static SQLconnection getSqLconnection() {
         return sqLconnection;
     }
@@ -60,15 +68,4 @@ public class Parkour extends JavaPlugin {
     public static Parkour getInstance() {
         return instance;
     }
-
-    void registerCommands() {
-        getCommand("parkour").setExecutor(new ParkourCommand());
-
-    }
-
-    void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new ParkourEvents(), this);
-    }
-
-
 }

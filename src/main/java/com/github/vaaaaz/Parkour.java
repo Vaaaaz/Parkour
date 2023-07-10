@@ -21,13 +21,16 @@ public class Parkour extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        registerCommands();
+        registerEvents();
         loadConfig();
+
         sqLconnection = new SQLconnection(getConfig().getString("mysql.user"), getConfig().getString("mysql.host"), getConfig().getString("mysql.password"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.db"));
-        loc = new Loc();
-        setup();
 
         PluginDescriptionFile description = getDescription();
         String version = description.getVersion();
+        loc = new Loc();
 
         Bukkit.getConsoleSender().sendMessage(new String[]{
                 "",
@@ -58,9 +61,13 @@ public class Parkour extends JavaPlugin {
         return instance;
     }
 
-    void setup() {
-        Bukkit.getPluginManager().registerEvents(new ParkourEvents(), this);
+    void registerCommands() {
         getCommand("parkour").setExecutor(new ParkourCommand());
+
+    }
+
+    void registerEvents() {
+        Bukkit.getPluginManager().registerEvents(new ParkourEvents(), this);
     }
 
 

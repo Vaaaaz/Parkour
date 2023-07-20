@@ -152,18 +152,18 @@ public class ParkourEvents implements Listener, Cords {
                         p.getInventory().setItem(3, new Itens(Material.IRON_PLATE, 1, 0).nome("§aTeleportar ao ultimo spawnpoint.").getItemStack());
                         p.getInventory().setItem(4, new Itens(Material.WOOD_DOOR, 1, 0).nome("§cResetar.").getItemStack());
                         p.getInventory().setItem(5, new Itens(Material.BED, 1, 0).nome("§cCancelar.").getItemStack());
-                        p.sendMessage("§aO parkour foi iniciado!");
+                        p.sendMessage(Parkour.config.getConfig().getString("mensagens.iniciado").replace("&", "§"));
                         p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                     }
                 }
                 if (e.getClickedBlock().getLocation().equals(getFim(p))) {
                     if (hashplayer.containsKey(p.getName())) {
                         p.teleport(spawn(p));
-                        long terminou = System.currentTimeMillis() - hashplayer.get(p.getName());
-                        MillisecondConverter milli = new MillisecondConverter(terminou);
+                        long finished = System.currentTimeMillis() - hashplayer.get(p.getName());
+                        MillisecondConverter milli = new MillisecondConverter(finished);
                         if (new SQLutils().hasPlayer(p.getName())) {
-                            if (terminou > new SQLutils().getTime(p.getName()) && new SQLutils().getTime(p.getName()) > 0) {
-                                p.sendMessage("§aVocê terminou o parkou em §l" + format(terminou) + ". §aMas, infelizmente você não bateu seu recorde de §l" + format(new SQLutils().getTime(p.getName())) + "§a.");
+                            if (finished > new SQLutils().getTime(p.getName()) && new SQLutils().getTime(p.getName()) > 0) {
+                                p.sendMessage(Parkour.config.getConfig().getString("mensagens.finalizou-semrecord").replace("&", "§").replace("{tempo}", format(finished).replace("{tempo}", format(new SQLutils().getTime(p.getName())))));
                                 p.playSound(p.getLocation(), Sound.ENDERDRAGON_DEATH, 1.0F, 1.0F);
                                 setItens(p);
                                 hashplayer.remove(p.getName());
@@ -173,12 +173,12 @@ public class ParkourEvents implements Listener, Cords {
                         } else {
                             new SQLutils().setPlayer(p);
                         }
-                        new SQLutils().setTime(p.getName(), terminou);
+                        new SQLutils().setTime(p.getName(), finished);
                         setItens(p);
                         hashplayer.remove(p.getName());
                         playerpoint.remove(p.getName());
                         p.playSound(p.getLocation(), Sound.ENDERDRAGON_DEATH, 1.0F, 1.0F);
-                        p.sendMessage("§aVocê terminou o parkour e bateu seu recorde! Seu tempo foi de " + format(terminou));
+                        p.sendMessage(Parkour.config.getConfig().getString("mensagens.finalizou").replace("&", "§").replace("{tempo}", format(finished)));
 
                     }
                     return;
@@ -190,7 +190,7 @@ public class ParkourEvents implements Listener, Cords {
                     if (!hasCheckPoint(e.getClickedBlock().getLocation())) return;
                     if (!playerpoint.containsKey(p.getName())) {
                         playerpoint.put(p.getName(), e.getClickedBlock().getLocation());
-                        p.sendMessage("§aVocê coletou o spawnpoint.");
+                        p.sendMessage(Parkour.config.getConfig().getString("mensagens.spawnpoint").replace("&", "§"));
                         p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                         return;
                     }
@@ -200,7 +200,7 @@ public class ParkourEvents implements Listener, Cords {
                                 return;
                             playerpoint.remove(p.getName());
                             playerpoint.put(p.getName(), e.getClickedBlock().getLocation());
-                            p.sendMessage("§aVocê coletou o spawnpoint.");
+                            p.sendMessage(Parkour.config.getConfig().getString("mensagens.spawnpoint").replace("&", "§"));
                             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                         } catch (NumberFormatException e11) {
                             System.out.println("");
@@ -352,9 +352,9 @@ public class ParkourEvents implements Listener, Cords {
             public void run() {
                 tempo++;
                 if (hashplayer.containsKey(p.getName())) {
-                    if (tempo == Parkour.getInstance().getConfig().getInt("opcoes.tempo-parado")) {
+                    if (tempo == Parkour.config.getConfig().getInt("opcoes.tempo-parado")) {
                         sair(p);
-                        p.sendMessage("§cVocê ficou muito tempo parado, e por isso, você foi removido do parkour.");
+                        p.sendMessage(Parkour.config.getConfig().getString("mensagens.afk").replace("&", "§"));
                     }
                 } else {
                     this.cancel();

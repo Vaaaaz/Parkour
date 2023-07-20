@@ -9,14 +9,21 @@
 # by vaz
 
 # Banco de Dados - necessário #
-mysql:
+MySQL:
   host: "localhost"
   user: "root"
   password: ""
   port: 3306
-  db: "s2_parkour"
+  db: "parkour"
 
 
 opcoes:
   tempo-parado: 180 #Bote o valor em segundos. #
+
+mensagens:
+  iniciado: "&aO parkour foi iniciado!"
+  afk: "&cVocê ficou muito tempo parado, e por isso, você foi removido do parkour."
+  spawnpoint: "&aVocê coletou o spawnpoint!"
+  finalizou-semrecord: "&aVocê terminou o parkou em &l{tempo}. &aMas, infelizmente você não bateu seu recorde de &l{record}&a."
+  finalizou: "&fVocê terminou o parkour e bateu seu recorde! Seu tempo foi de &a{tempo}"
 
